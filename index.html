@@ -1,0 +1,150 @@
+<!doctype html>
+<html lang="en" data-theme="light">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="description" content="GroupBrief reconstructs task-relevant group cognition to prepare agents for ongoing collaboration. Explore the task, benchmark, method, and experimental findings.">
+  <meta name="theme-color" content="#ffffff">
+  <meta property="og:type" content="website">
+  <meta property="og:title" content="GroupBrief — Reconstructing Group Cognition for Collaborative Agents">
+  <meta property="og:description" content="From scattered team messages to useful collaboration context. A benchmark of 1,351 requests and 9,975 verified reference points.">
+  <meta property="og:image" content="https://zhaoxuan.info/groupbrief/assets/figures/teaser.webp">
+  <meta property="og:url" content="https://zhaoxuan.info/groupbrief/">
+  <link rel="canonical" href="https://zhaoxuan.info/groupbrief/">
+  <link rel="icon" href="assets/favicon.svg" type="image/svg+xml">
+  <link rel="stylesheet" href="styles.css">
+  <title>GroupBrief · Reconstructing Group Cognition for Collaborative Agents</title>
+  <script src="script.js" defer></script>
+</head>
+<body>
+  <a class="skip-link" href="#main">Skip to content</a>
+  <header class="topbar">
+    <div class="topbar-inner">
+      <a class="wordmark" href="#top" aria-label="GroupBrief home"><img src="assets/favicon.svg" width="25" height="25" alt="">GroupBrief</a>
+      <nav aria-label="Main navigation"><a href="#benchmark">Benchmark</a><a href="#method">Method</a><a href="#results">Results</a><a href="#case-study">Case study</a></nav>
+      <button id="theme-toggle" class="icon-button" aria-label="Switch to dark mode" title="Switch to dark mode"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" aria-hidden="true"><path d="M20.4 14.1A8.5 8.5 0 0 1 9.9 3.6 8.5 8.5 0 1 0 20.4 14.1Z"/></svg></button>
+    </div>
+  </header>
+  <main id="main">
+    <section class="hero" id="top">
+      <div class="wrap">
+        <div class="accent-rule" aria-hidden="true"><i></i><i></i><i></i></div>
+        <p class="eyebrow">GroupBrief</p>
+        <h1>Reconstructing Group Cognition<br class="desktop-break"> for Collaborative Agents</h1>
+        <div class="authors">
+          <span><a href="https://zhaoxuan.info/">Zhaoxuan Tan</a><sup>1*</sup></span><span>Mengting Wan<sup>2</sup></span><span>Jingbo Yang<sup>3</sup></span><span>Kwei-Herng Lai<sup>2</sup></span><span>Renyi Qu<sup>2</sup></span><span>Lorenzo Jaime Flores<sup>2</sup></span><span>Meng Jiang<sup>1</sup></span><span>Longqi Yang<sup>2</sup></span><span>Victor Poznanski<sup>2</sup></span><span>Pei Zhou<sup>2</sup></span>
+        </div>
+        <p class="affiliations"><span><sup>1</sup> University of Notre Dame</span><span><sup>2</sup> Microsoft</span><span><sup>3</sup> UC Santa Barbara</span></p>
+        <p class="author-note">* Work done while interning at Microsoft.</p>
+        <div class="hero-links">
+          <a class="button primary" href="assets/groupbrief.pdf" target="_blank" rel="noopener"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M6 3h8l4 4v14H6zM14 3v5h4M9 12h6M9 16h6"/></svg>Read the paper</a>
+          <a class="button secondary" href="#results"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M4 4v16h16M8 16v-5M13 16V7M18 16v-8"/></svg>Explore results</a>
+        </div>
+        <p class="hero-summary">Before an agent can help a team, it needs to understand<br class="desktop-break"> what its members know, depend on, and still need to resolve.</p>
+        <figure class="paper-figure teaser">
+          <button class="figure-zoom" data-zoom="assets/figures/teaser.webp" aria-label="Enlarge the group briefing motivation figure"><img src="assets/figures/teaser.webp" width="2400" height="844" fetchpriority="high" alt="A team’s history contains a revised deadline, a conflicting plan, and a pending approval. A group brief connects these signals and helps a collaboration agent suggest a shared review."></button>
+          <figcaption><strong>Preparing an agent to join the team.</strong> A group brief connects scattered messages into past state, potential friction, and opportunities for coordination. The brief becomes context for the collaboration agent.</figcaption>
+        </figure>
+      </div>
+    </section>
+
+    <section class="section abstract" id="abstract">
+      <div class="text-column">
+        <p class="eyebrow">The task</p><h2>From group history to collaboration context</h2>
+        <p>Agents entering an ongoing collaboration need context about how the team thinks and works: which beliefs participants have expressed, which responsibilities have been accepted, and where coordination may break down. We introduce <strong>group briefing</strong>, the task of reconstructing this task-relevant group cognition from a collaboration request and the history available at a specified cutoff.</p>
+        <p>Our benchmark evaluates both the information a brief preserves and its use in downstream collaboration. Across memory methods and nine writer models, a persistent challenge emerges: <strong>recovering past state is easier than identifying future friction</strong>. We introduce <span class="method">GroupBrief</span>, a task-guided retrieval and synthesis procedure, and then study how coverage feedback can improve its policy while keeping the writer fixed.</p>
+      </div>
+    </section>
+
+    <section class="section band" id="benchmark">
+      <div class="wrap">
+        <div class="section-heading"><p class="eyebrow">The benchmark</p><h2>What should an agent know before it joins?</h2><p>Request-specific reference points make the coordination information in a brief measurable.</p></div>
+        <div class="stats">
+          <div><strong>1,351</strong><span>collaboration requests</span></div><div><strong>9,975</strong><span>verified reference points</span></div><div><strong>4</strong><span>work domains</span></div><div><strong>9</strong><span>writer models evaluated</span></div>
+        </div>
+        <p class="domains">Manufacturing <span>·</span> Finance <span>·</span> Healthcare <span>·</span> Technology</p>
+        <div class="three-columns categories">
+          <article class="category past"><span class="category-number">4,576 points</span><h3>Past state</h3><p>Expressed positions, decisions, accepted responsibilities, and the current state of shared work.</p></article>
+          <article class="category friction"><span class="category-number">2,589 points</span><h3>Future friction</h3><p>Evidence-supported concerns that could obstruct the requested collaboration.</p></article>
+          <article class="category opportunity"><span class="category-number">2,810 points</span><h3>Future opportunities</h3><p>Evidence-supported ways to improve how the team coordinates its work.</p></article>
+        </div>
+        <p class="scope-note">The histories are synthetic. Prospective points require pre-cutoff support and later corroboration; later evidence is used for annotation and withheld from runtime inputs and coverage scoring.</p>
+      </div>
+    </section>
+
+    <section class="section" id="method">
+      <div class="wrap">
+        <div class="section-heading"><p class="eyebrow">The method</p><h2>Build a brief. Give the agent context.</h2><p><span class="method">GroupBrief</span> retrieves evidence for the request, then connects it into an attributed account of group cognition.</p></div>
+        <figure class="paper-figure">
+          <button class="figure-zoom" data-zoom="assets/figures/overview.webp" aria-label="Enlarge the GroupBrief overview"><img src="assets/figures/overview.webp" width="2400" height="1113" loading="lazy" alt="GroupBrief iteratively searches and reads eligible history, synthesizes theory of mind, group dynamics and grounding gaps, and supplies a brief to a collaboration agent. Evaluation measures information coverage and compares collaboration with and without a brief."></button>
+          <figcaption><strong>A shared task, two complementary evaluations.</strong> Coverage checks the information preserved in the brief. Matched simulations examine the interactions supported by that context.</figcaption>
+        </figure>
+        <div class="three-columns concepts">
+          <article><span class="step-number">01</span><h3>Theory of mind</h3><p>Preserve participants’ expressed beliefs and assumptions, including who holds them and what remains uncertain.</p></article>
+          <article><span class="step-number">02</span><h3>Group dynamics</h3><p>Connect roles, responsibilities, dependencies, and tensions around the team’s shared work.</p></article>
+          <article><span class="step-number">03</span><h3>Grounding gaps</h3><p>Keep unconfirmed acknowledgment or alignment visible, so an agent can decide what needs clarification.</p></article>
+        </div>
+      </div>
+    </section>
+
+    <section class="section band" id="results">
+      <div class="wrap">
+        <div class="section-heading"><p class="eyebrow">Main findings</p><h2>Future friction remains the harder part</h2><p>Every evaluated writer covers past state better than future friction. Explore how the picture changes across methods and writers.</p></div>
+        <div class="chart-panel">
+          <div class="chart-controls">
+            <fieldset><legend>Comparison</legend><div class="segmented" id="comparison-controls"><button type="button" data-comparison="methods" aria-pressed="true">Methods</button><button type="button" data-comparison="writers" aria-pressed="false">Writers</button></div></fieldset>
+            <fieldset><legend>Coverage category</legend><div class="segmented" id="category-controls"><button type="button" data-category="overall" aria-pressed="true">Overall</button><button type="button" data-category="past" aria-pressed="false">Past state</button><button type="button" data-category="friction" aria-pressed="false">Friction</button><button type="button" data-category="opportunities" aria-pressed="false">Opportunities</button></div></fieldset>
+          </div>
+          <div class="chart-heading"><h3 id="benchmark-chart-title">Method comparison</h3><span class="scope-tag">Full benchmark</span></div>
+          <p id="benchmark-chart-context" class="chart-context">Writer fixed to gpt-5.4-mini · 1,351 requests · 9,975 reference points</p>
+          <div id="benchmark-bars" class="bar-chart" role="img" aria-label="Overall reference-point coverage by method"></div>
+          <div class="chart-axis"><span></span><div><span>0</span><span>20</span><span>40</span><span>60</span><span>80</span></div></div>
+          <p class="axis-title">Reference-point coverage (%)</p>
+          <details class="results-details"><summary>Show full results table</summary><div class="table-scroll" tabindex="0" role="region" aria-label="Full benchmark results table"><table><caption id="benchmark-table-caption">Full-benchmark method comparison</caption><thead><tr><th scope="col" id="benchmark-label-heading">Method</th><th scope="col">Overall</th><th scope="col">Past state</th><th scope="col">Friction</th><th scope="col">Opportunities</th><th scope="col">Simulation preference</th></tr></thead><tbody id="benchmark-table"></tbody></table></div><p class="note">All values are percentages. Simulation preference is against no brief and conditional on valid, order-consistent comparisons.</p></details>
+        </div>
+        <p class="scope-note">These comparisons share eligible history and evaluation rules; context, retrieval, and memory-construction budgets differ. Coverage measures retention of reference information, not the precision of additional claims.</p>
+      </div>
+    </section>
+
+    <section class="section" id="optimization">
+      <div class="wrap">
+        <div class="section-heading"><p class="eyebrow">Improving the briefing policy</p><h2>Better preparation with the same writer</h2><p>Coverage feedback guides revisions to retrieval and synthesis instructions. Writer parameters, tools, visibility rules, and scoring remain fixed.</p></div>
+        <div class="optimization-summary"><div><strong>5 rounds</strong><span>of policy proposals and validation</span></div><div><strong>289 Test requests</strong><span>across seven projects</span></div><div><strong>2,162 points</strong><span>in the Test reference set</span></div></div>
+        <div class="chart-panel optimization-panel">
+          <div class="chart-controls">
+            <fieldset><legend>Writer</legend><div class="segmented" id="writer-controls"><button data-writer="mini" aria-pressed="false"><code>gpt-5.4-mini</code></button><button data-writer="luna" aria-pressed="true"><code>gpt-5.6-luna</code></button></div></fieldset>
+            <fieldset><legend>Evaluation</legend><div class="segmented" id="metric-controls"><button data-metric="coverage" aria-pressed="true">Coverage</button><button data-metric="simulation" aria-pressed="false">Simulation</button></div></fieldset>
+          </div>
+          <div class="chart-heading"><h3 id="optimization-chart-title">Test reference-point coverage</h3><span class="scope-tag">Test set</span></div>
+          <div id="optimization-chart" class="optimization-chart" role="img" aria-label="Test coverage for GroupBrief and GroupBrief optimized"></div>
+          <div id="optimization-axis" class="optimization-axis"></div>
+          <p id="optimization-callout" class="result-callout">+12.88 percentage points in Test coverage</p>
+          <p id="optimization-note" class="chart-note">Both variants are evaluated on the same 2,162 reference points. The gain is calculated from unrounded scores.</p>
+        </div>
+        <details class="figure-details"><summary>View the paper’s complete Test comparisons</summary><figure class="paper-figure"><button class="figure-zoom" data-zoom="assets/figures/coverage.webp" aria-label="Enlarge complete Test coverage comparisons"><img src="assets/figures/coverage.webp" width="2400" height="1008" loading="lazy" alt="Complete Test coverage comparison of baseline methods, nine writers, and GroupBrief variants."></button><figcaption>Test coverage across methods, writers, and within-writer policy variants.</figcaption></figure><figure class="paper-figure"><button class="figure-zoom" data-zoom="assets/figures/simulation.webp" aria-label="Enlarge complete Test simulation comparisons"><img src="assets/figures/simulation.webp" width="2400" height="1008" loading="lazy" alt="Test simulation preferences against no brief, using a shared zoomed 57 to 71 percent axis and each configuration’s valid comparisons."></button><figcaption>Test simulation preference against no brief. Each rate has its own valid comparison set.</figcaption></figure></details>
+        <p class="scope-note">Train diagnostics and Valid selection guide the search; downstream simulation supplies no search feedback. Test is excluded from this search but was inspected in earlier experiments. Simulation rates are not direct judgments between the two briefing variants.</p>
+      </div>
+    </section>
+
+    <section class="section band" id="case-study">
+      <div class="wrap">
+        <div class="section-heading"><p class="eyebrow">A closer look</p><h2>What does the optimized policy learn to preserve?</h2><p>A healthcare case illustrates how more explicit search and writing instructions change the coordination context in the brief.</p></div>
+        <div class="three-columns case-practices"><article><span class="step-number">01</span><h3>Follow the decision</h3><p>Read replies and later pre-cutoff updates about the same work item.</p></article><article><span class="step-number">02</span><h3>Separate roles and conditions</h3><p>Distinguish who confirms an arrangement from who owns it, and retain when that responsibility ends.</p></article><article><span class="step-number">03</span><h3>Preserve the purpose</h3><p>Connect an arrangement to the specific coordination problem it is intended to prevent.</p></article></div>
+        <figure class="paper-figure"><button class="figure-zoom" data-zoom="assets/figures/case-study.webp" aria-label="Enlarge the healthcare case study"><img src="assets/figures/case-study.webp" width="2400" height="699" loading="lazy" alt="The original brief names a nurse leader through 19 July. GroupBrief optimized preserves the project manager’s responsibility until final approval and keeps audit information in one shared record. Reference-point credit rises from 1.5 of 6 to 5 of 6."></button><figcaption><strong>Current ownership, its condition, and the reason behind it.</strong> Coverage rises from 25.0% to 83.3% on the same six checks. Both briefs still miss specialty and legacy risks.</figcaption></figure>
+        <p class="scope-note">This post-hoc case illustrates revised instructions and observed brief differences. It is not an executed tool trace or a causal demonstration of improved downstream collaboration.</p>
+      </div>
+    </section>
+
+    <section class="section citation-section" id="citation"><div class="wrap"><div class="section-heading"><p class="eyebrow">Reference</p><h2>Citation</h2></div><div class="citation-box"><button id="copy-citation" class="button secondary" type="button">Copy BibTeX</button><pre><code id="bibtex">@misc{tan2026groupbrief,
+  title = {Reconstructing Group Cognition for Collaborative Agents},
+  author = {Tan, Zhaoxuan and Wan, Mengting and Yang, Jingbo and
+            Lai, Kwei-Herng and Qu, Renyi and Flores, Lorenzo Jaime and
+            Jiang, Meng and Yang, Longqi and Poznanski, Victor and Zhou, Pei},
+  year = {2026},
+  url = {https://zhaoxuan.info/groupbrief/}
+}</code></pre></div><p id="copy-status" class="copy-status" role="status" aria-live="polite"></p></div></section>
+  </main>
+  <footer><div class="wrap"><p><span class="method">GroupBrief</span> · Reconstructing group cognition for collaborative agents</p><div><a href="assets/groupbrief.pdf">Paper</a><a href="https://github.com/TamSiuhin/groupbrief">Website source</a><a href="mailto:ztan3@nd.edu">Contact</a><a href="#top">Back to top ↑</a></div></div></footer>
+  <dialog id="figure-dialog" aria-label="Expanded paper figure"><div class="dialog-toolbar"><p id="dialog-title">Paper figure</p><button id="close-figure" class="icon-button" aria-label="Close expanded figure">✕</button></div><img id="expanded-figure" alt=""><p class="dialog-hint">Press Escape or click outside the figure to close.</p></dialog>
+</body>
+</html>
